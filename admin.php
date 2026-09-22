@@ -7,9 +7,26 @@ require_once "includes/functions.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
-    if (in_array($action, ['add_service', 'update_service', 'delete_service'], true)) {
+    if (in_array($action, ['add_service', 'update_service', 'delete_service', 'update_message', 'delete_message'], true)) {
         try {
-            if ($action === 'add_service') {
+            if ($action === 'update_message') {
+                $messageId = (int) ($_POST['message_id'] ?? 0);
+                $name = trim($_POST['name'] ?? '');
+                $email = trim($_POST['email'] ?? '');
+                $message = trim($_POST['message'] ?? '');
+
+                if ($messageId < 1 || $name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $message === '') {
+                    throw new InvalidArgumentException('Complete the message fields with a valid email.');
+                }
+
+                $statement = $pdo->prepare("UPDATE messages SET name = ?, email = ?, message = ? WHERE id = ?");
+                $statement->execute([$name, $email, $message, $messageId]);
+                flash('success', 'Message updated.');
+            } elseif ($action === 'delete_message') {
+                $statement = $pdo->prepare("DELETE FROM messages WHERE id = ?");
+                $statement->execute([(int) ($_POST['message_id'] ?? 0)]);
+                flash('success', 'Message deleted.');
+            } elseif ($action === 'add_service') {
                 $name = trim($_POST['name'] ?? '');
                 $description = trim($_POST['description'] ?? '');
                 $price = trim($_POST['price'] ?? '');
@@ -45,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             flash('danger', 'Service name already exists or could not be saved.');
         }
 
-        header("Location: admin.php#services");
+        header("Location: admin.php#" . (str_contains($action, 'message') ? 'messages' : 'services'));
         exit;
     }
 
@@ -69,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $appointments = $pdo->query("SELECT a.*, u.username, u.email, v.plate_no, v.make, v.model FROM appointments a JOIN users u ON u.id = a.user_id JOIN vehicles v ON v.id = a.vehicle_id ORDER BY a.status = 'Pending' DESC, a.appointment_date ASC, a.created_at DESC")->fetchAll();
 $services = $pdo->query("SELECT * FROM services ORDER BY name")->fetchAll();
+$messages = $pdo->query("SELECT * FROM messages ORDER BY created_at DESC, id DESC")->fetchAll();
 $pendingCount = 0;
 
 foreach ($appointments as $appointment) {
@@ -249,7 +267,7 @@ foreach ($appointments as $appointment) {
                                     </div>
                                 </form>
 
-                                <form method="post" class="text-end mt-2" onsubmit="return confirm('Delete this service?')">
+                                <form method="post" class="text-end mt-2" data-confirm-message="Delete this service?">
                                     <input type="hidden" name="action" value="delete_service">
                                     <input type="hidden" name="service_id" value="<?= $service['id'] ?>">
                                     <button class="btn btn-sm btn-outline-danger">Delete</button>
@@ -262,6 +280,60 @@ foreach ($appointments as $appointment) {
                 <?php if (!$services): ?>
                     <div class="col-12">
                         <div class="alert alert-info">No services configured.</div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </section>
+
+        <section id="messages" class="mt-5">
+            <div class="mb-3">
+                <h2>Customer Messages</h2>
+                <p class="text-muted mb-0">Review, update, or remove messages submitted through the contact form.</p>
+            </div>
+
+            <div class="row g-3">
+                <?php foreach ($messages as $message): ?>
+                    <div class="col-lg-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <form method="post" class="row g-2">
+                                    <input type="hidden" name="action" value="update_message">
+                                    <input type="hidden" name="message_id" value="<?= $message['id'] ?>">
+
+                                    <div class="col-md-6">
+                                        <label class="small">Name</label>
+                                        <input class="form-control" name="name" value="<?= e($message['name']) ?>" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="small">Email</label>
+                                        <input class="form-control" type="email" name="email" value="<?= e($message['email']) ?>" required>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="small">Message</label>
+                                        <textarea class="form-control" name="message" rows="4" required><?= e($message['message']) ?></textarea>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Received <?= e($message['created_at']) ?></small>
+                                        <button class="btn btn-sm btn-primary">Update</button>
+                                    </div>
+                                </form>
+
+                                <form method="post" class="text-end mt-2" data-confirm-message="Delete this message?">
+                                    <input type="hidden" name="action" value="delete_message">
+                                    <input type="hidden" name="message_id" value="<?= $message['id'] ?>">
+                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+                <?php if (!$messages): ?>
+                    <div class="col-12">
+                        <div class="alert alert-info">No customer messages yet.</div>
                     </div>
                 <?php endif; ?>
             </div>

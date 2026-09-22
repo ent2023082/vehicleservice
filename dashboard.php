@@ -128,10 +128,10 @@ $services = $pdo->query("SELECT * FROM services ORDER BY name")->fetchAll();
                             <p class="mb-1">Year: <?= e($x['year']) ?></p>
                             <p>Mileage: <?= number_format($x['mileage']) ?> km</p>
 
-                            <form method="post">
+                            <form method="post" data-confirm-message="Delete this vehicle?">
                                 <input type="hidden" name="action" value="delete_vehicle">
                                 <input type="hidden" name="id" value="<?= $x['id'] ?>">
-                                <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this vehicle?')">Delete</button>
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
                         </div>
                     </div>
