@@ -67,12 +67,13 @@ $services = $pdo->query("SELECT * FROM services ORDER BY name")->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.php">🚗 AutoCare Pro</a>
+            <a class="navbar-brand fw-bold" href="index.php"><i class="bi bi-car-front-fill me-1" aria-hidden="true"></i>AutoCare Pro</a>
             <div>
                 <a class="btn btn-outline-light btn-sm me-2" href="index.php">Home</a>
                 <a class="btn btn-outline-light btn-sm" href="auth/logout.php">Logout</a>
@@ -83,11 +84,11 @@ $services = $pdo->query("SELECT * FROM services ORDER BY name")->fetchAll();
     <div class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1>Hello, <?= e($_SESSION['username']) ?> 👋</h1>
+                <h1>Hello, <?= e($_SESSION['username']) ?></h1>
                 <p class="text-muted">Manage your vehicles and service activity.</p>
             </div>
 
-            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#vehicleModal">+ Add Vehicle</button>
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#vehicleModal"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Add Vehicle</button>
         </div>
 
         <?php show_flash(); ?>

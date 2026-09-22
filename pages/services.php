@@ -11,12 +11,13 @@ $services = $pdo->query("SELECT * FROM services ORDER BY name")->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Services</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="../index.php">🚗 AutoCare Pro</a>
+            <a class="navbar-brand fw-bold" href="../index.php"><i class="bi bi-car-front-fill me-1" aria-hidden="true"></i>AutoCare Pro</a>
             <a class="btn btn-warning btn-sm" href="../auth/register.php">Get Started</a>
         </div>
     </nav>
@@ -32,7 +33,7 @@ $services = $pdo->query("SELECT * FROM services ORDER BY name")->fetchAll();
             <?php foreach ($services as $service): ?>
                 <div class="col-md-6 col-lg-4 service-item">
                     <div class="feature-card h-100">
-                        <div class="icon">🛠️</div>
+                        <div class="icon"><i class="bi bi-tools" aria-hidden="true"></i></div>
                         <h4><?= e($service['name']) ?></h4>
                         <p><?= e($service['description']) ?></p>
                         <strong><?= e($service['price']) ?></strong>

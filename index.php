@@ -9,12 +9,13 @@ require_once __DIR__ . '/includes/db.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AutoCare Pro | Vehicle Service Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.php">🚗 AutoCare Pro</a>
+            <a class="navbar-brand fw-bold" href="index.php"><i class="bi bi-car-front-fill me-1" aria-hidden="true"></i>AutoCare Pro</a>
 
             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
                 <span class="navbar-toggler-icon"></span>
@@ -83,7 +84,7 @@ require_once __DIR__ . '/includes/db.php';
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="feature-card">
-                        <div class="icon">🚘</div>
+                        <div class="icon"><i class="bi bi-car-front" aria-hidden="true"></i></div>
                         <h5>Vehicle Records</h5>
                         <p>Add multiple vehicles and keep registration, mileage and model information organized.</p>
                     </div>
@@ -91,7 +92,7 @@ require_once __DIR__ . '/includes/db.php';
 
                 <div class="col-md-4">
                     <div class="feature-card">
-                        <div class="icon">🛠️</div>
+                        <div class="icon"><i class="bi bi-tools" aria-hidden="true"></i></div>
                         <h5>Service Booking</h5>
                         <p>Choose a service and request an appointment with date and notes.</p>
                     </div>
@@ -99,7 +100,7 @@ require_once __DIR__ . '/includes/db.php';
 
                 <div class="col-md-4">
                     <div class="feature-card">
-                        <div class="icon">📋</div>
+                        <div class="icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></div>
                         <h5>Service History</h5>
                         <p>Review previous work, costs and service dates from your dashboard.</p>
                     </div>

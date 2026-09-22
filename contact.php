@@ -24,12 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Contact</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.php">🚗 AutoCare Pro</a>
+            <a class="navbar-brand fw-bold" href="index.php"><i class="bi bi-car-front-fill me-1" aria-hidden="true"></i>AutoCare Pro</a>
             <a class="btn btn-outline-light btn-sm" href="index.php">Home</a>
         </div>
     </nav>
